@@ -1,20 +1,18 @@
 FROM debian:stable
 MAINTAINER Andreas Krüger
-
-# Install deps.
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update -qq
-RUN apt-get install -y libpcap0.8 automake libexpat1-dev libtool git  libpcap0.8-dev file
-RUN apt-get install -y make
-
 ENV captagent_version 0x00001
-RUN git clone https://github.com/sipcapture/captagent.git
-WORKDIR /captagent/captagent
 
+RUN apt-get update -qq
+RUN apt-get install --no-install-recommends --no-install-suggests -yqq libpcap0.8 automake libexpat1-dev libtool git libpcap0.8-dev file make
+
+WORKDIR /usr/src
+RUN git clone https://github.com/sipcapture/captagent.git captagent
+
+WORKDIR /usr/src/captagent
 RUN ./build.sh
 RUN ./configure
-RUN make
-RUN make install
+RUN make && make install
 
 WORKDIR /
 COPY captagent.xml /usr/local/etc/captagent/captagent.xml
