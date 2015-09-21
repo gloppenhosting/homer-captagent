@@ -8,7 +8,7 @@ RUN apt-get install --no-install-recommends --no-install-suggests -yqq ca-certif
 RUN update-ca-certificates
 
 WORKDIR /usr/src
-RUN git clone https://github.com/gloppenhosting/captagent.git .
+RUN git clone --depth 1 https://github.com/gloppenhosting/captagent.git .
 
 WORKDIR /usr/src/captagent
 RUN ./build.sh
