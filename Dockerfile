@@ -1,4 +1,4 @@
-FROM debian:stable
+FROM debian:jessie
 MAINTAINER Andreas Krüger
 ENV DEBIAN_FRONTEND noninteractive
 ENV captagent_version 0x00001
