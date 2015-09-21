@@ -4,14 +4,15 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV captagent_version 0x00001
 
 RUN apt-get update -qq
-RUN apt-get install --no-install-recommends --no-install-suggests -yqq libpcap0.8 automake libexpat1-dev libtool git libpcap0.8-dev file make
+RUN apt-get install --no-install-recommends --no-install-suggests -yqq ca-certificates git make m4 automake autoconf libtool libcap-dev libexpat-dev libpcap-dev zlib1g-dev openssl libssl-dev
+RUN update-ca-certificates
 
 WORKDIR /usr/src
-RUN git clone https://github.com/sipcapture/captagent.git captagent
+RUN git clone https://github.com/gloppenhosting/captagent.git .
 
 WORKDIR /usr/src/captagent
 RUN ./build.sh
-RUN ./configure
+RUN ./configure --enable-ssl --enable-compression
 RUN make && make install
 
 WORKDIR /
